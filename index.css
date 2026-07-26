@@ -724,7 +724,7 @@ a {
 #backToTopBtn {
   display: none;
   position: fixed;
-  bottom: px;
+  bottom: 170px;
   right: 10px;
   z-index: 9999;
   background-color: #1565C0;
