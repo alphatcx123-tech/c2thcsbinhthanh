@@ -128,15 +128,33 @@ function initVisitorCounterPremium() {
 
 function initBackToTop() {
   const backToTopBtn = document.getElementById("backToTopBtn");
+  const scrollToBottomBtn = document.getElementById("scrollToBottomBtn");
+
   if (!backToTopBtn) return;
 
-  window.addEventListener("scroll", function () {
-    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+  function toggleButtons() {
+    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    const maxScroll =
+      document.documentElement.scrollHeight - window.innerHeight;
+
+    if (scrollTop > 20) {
       backToTopBtn.style.display = "flex";
     } else {
       backToTopBtn.style.display = "none";
     }
-  });
+
+    if (scrollToBottomBtn) {
+      if (scrollTop < maxScroll - 20) {
+        scrollToBottomBtn.style.display = "flex";
+      } else {
+        scrollToBottomBtn.style.display = "none";
+      }
+    }
+  }
+
+  window.addEventListener("scroll", toggleButtons);
+
+  toggleButtons();
 
   backToTopBtn.addEventListener("click", function () {
     window.scrollTo({
@@ -144,6 +162,15 @@ function initBackToTop() {
       behavior: "smooth"
     });
   });
+
+  if (scrollToBottomBtn) {
+    scrollToBottomBtn.addEventListener("click", function () {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: "smooth"
+      });
+    });
+  }
 }
 
 function openModal(id) {
