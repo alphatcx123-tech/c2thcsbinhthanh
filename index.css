@@ -697,7 +697,7 @@ a {
 
 #scrollToBottomBtn {
   position: fixed;
-  bottom: 170px;
+  bottom: 110px;
   right: 10px;
   z-index: 9999;
   background-color: #1565C0;
@@ -724,7 +724,7 @@ a {
 #backToTopBtn {
   display: none;
   position: fixed;
-  bottom: 110px;
+  bottom: px;
   right: 10px;
   z-index: 9999;
   background-color: #1565C0;
