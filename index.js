@@ -225,8 +225,20 @@ function toggleReadMore(button) {
 
   const expanded = content.classList.toggle("expanded");
   if (expanded) {
+    content.style.maxHeight = content.scrollHeight + "px";
     button.textContent = "Thu gọn";
+    setTimeout(() => {
+      if (content.classList.contains("expanded")) {
+        content.style.maxHeight = "none";
+      }
+    }, 400);
   } else {
+    content.style.maxHeight = content.scrollHeight + "px";
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        content.style.maxHeight = "46px";
+      });
+    });
     button.textContent = "Xem thêm";
   }
 }
