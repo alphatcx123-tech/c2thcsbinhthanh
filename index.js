@@ -219,7 +219,6 @@ function copyToClipboard(text) {
   showToast();
 }
 
-/* Hàm xử lý đóng/mở nút Xem thêm - Thu gọn mượt mà */
 function toggleReadMore(button) {
   const content = button.previousElementSibling;
   if (!content) return;
@@ -230,36 +229,37 @@ function toggleReadMore(button) {
     content.classList.add("expanded");
     content.style.maxHeight = content.scrollHeight + "px";
     button.textContent = "Thu gọn";
+
+    setTimeout(() => {
+      if (content.classList.contains("expanded")) {
+        content.style.maxHeight = "none";
+      }
+    }, 400);
   } else {
     content.style.maxHeight = content.scrollHeight + "px";
-    void content.offsetHeight; // Kích hoạt reflow để tạo bước đệm chuyển động
-    content.classList.remove("expanded");
-    content.style.maxHeight = "46px";
-    button.textContent = "Xem thêm";
+
+    requestAnimationFrame(() => {
+      content.style.maxHeight = "48px";
+      button.textContent = "Xem thêm";
+
+      setTimeout(() => {
+        if (!content.classList.contains("expanded")) {
+          content.classList.remove("expanded");
+        }
+      }, 400);
+    });
   }
 }
 
-function normalizeText(str) {
-  return (str || "")
-    .toString()
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/đ/g, "d")
-    .replace(/[^a-z0-9\s]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
 const searchData = [
-  { titleMain: "Giới thiệu", titleSub: "Nhà trường", desc: "Xem lịch sử, cơ cấu trường, thông tin tổng quan.", keywords: ["gioi thieu", "nha truong", "thcs", "binh thanh"], url: "gioithieu.html" },
-  { titleMain: "Sự kiện", titleSub: "Mới", desc: "Hoạt động, phong trào, lễ hội, ngoại khóa.", keywords: ["su kien", "hoat dong", "phong trao"], url: "sukien.html" },
-  { titleMain: "Kỉ niệm", titleSub: "Hình ảnh", desc: "Album ảnh, video, khoảnh khắc đáng nhớ.", keywords: ["ki niem", "hinh anh", "album", "ky niem"], url: "kiniem.html" },
-  { titleMain: "Tin tức", titleSub: "Thông báo", desc: "Thông báo mới nhất, tin quan trọng của trường.", keywords: ["tin tuc", "thong bao", "tin moi"], url: "thongtin.html" },
-  { titleMain: "Tài nguyên", titleSub: "Học tập", desc: "Tài liệu, bài giảng, đề thi, ôn tập khối 6 đến khối 9.", keywords: ["tai nguyen", "hoc tap", "de thi", "tai lieu"], url: "tainguyen.html" },
-  { titleMain: "Tài nguyên", titleSub: "Máy chủ", desc: "Thông tin phần cứng, phần mềm và hệ thống website.", keywords: ["may chu", "server", "hosting", "github"], url: "tainguyenserver.html" },
-  { titleMain: "Kỹ năng", titleSub: "Phòng chống đuối nước", desc: "Cẩm nang an toàn dưới nước dành riêng cho học sinh.", keywords: ["duoi nuoc", "phong chong", "an toan"], url: "phongchongduoinuoc.html" },
-  { titleMain: "Bài báo học sinh", titleSub: "Gương sáng Bình Thành", desc: "Bài báo tuyên dương những học sinh xuất sắc phong trào Đội.", keywords: ["guong sang", "tuyen duong", "hoc sinh"], url: "guongtot.html" },
+  { titleMain: "Giới thiệu", titleSub: "Giới thiệu nhà trường", desc: "Thông tin tổng quan về lịch sử, cơ cấu tổ chức của trường THCS Bình Thành.", keywords: ["gioi thieu", "truong", "lich su"], url: "gioithieu.html" },
+  { titleMain: "Sự kiện", titleSub: "Sự kiện mới nổi bật", desc: "Tổng hợp các hoạt động phong trào, lễ hội, sinh hoạt ngoại khóa của trường.", keywords: ["su kien", "hoat dong", "ngoai khoa"], url: "sukien.html" },
+  { titleMain: "Kỉ niệm", titleSub: "Góc Kỉ Niệm", desc: "Lưu giữ hình ảnh, video và những dấu mốc đáng nhớ của các thế hệ học sinh.", keywords: ["ki niem", "hinh anh", "video"], url: "kiniem.html" },
+  { titleMain: "Thông báo", titleSub: "Tin tức - Thông báo", desc: "Cập nhật các thông báo mới nhất từ nhà trường và các phòng ban.", keywords: ["thong bao", "tin tuc", "hoc tap"], url: "thongtin.html" },
+  { titleMain: "Tài nguyên", titleSub: "Tài nguyên học tập", desc: "Kho lưu trữ tài liệu học tập từ lớp 6 đến lớp 9.", keywords: ["tai lieu", "hoc tap", "lop 6", "lop 7", "lop 8", "lop 9"], url: "tainguyen.html" },
+  { titleMain: "Máy chủ", titleSub: "Tài nguyên máy chủ", desc: "Tổng hợp phần cứng, phần mềm hỗ trợ duy trì và vận hành website ổn định.", keywords: ["may chu", "server", "phần cứng"], url: "tainguyenserver.html" },
+  { titleMain: "Lưu ý", titleSub: "Phòng chống đuối nước", desc: "Cẩm nang an toàn dưới nước dành riêng cho học sinh khi tham gia bơi lội và mùa mưa lũ.", keywords: ["duoi nuoc", "phong chong", "an toan"], url: "phongchongduoinuoc.html" },
+  { titleMain: "Lưu ý", titleSub: "Gương sáng học sinh Bình Thành", desc: "Bài báo tuyên dương những học sinh xuất sắc phong trào Đội.", keywords: ["guong sang", "tuyen duong", "hoc sinh"], url: "guongtot.html" },
   { titleMain: "Mẹo hay", titleSub: "Học tốt - giảm áp lực", desc: "Chia sẻ phương pháp sơ đồ tư duy (Mindmap) và thời gian.", keywords: ["meo hay", "hoc tot", "mindmap"], url: "meohayhoctap.html" },
   { titleMain: "Mẹo hay", titleSub: "Bảo vệ sức khỏe", desc: "Các thói quen tốt giúp phòng tránh tật khúc xạ, cận thị học đường.", keywords: ["suc khoe", "can thi", "tu the ngoi"], url: "meosuckhoe.html" }
 ];
@@ -286,10 +286,22 @@ function handleSearch() {
   }
 
   filtered.forEach((item) => {
-    resultBox.innerHTML += `
-      <a href="${item.url}" class="search-res-item">
-        <div class="search-res-title">${item.titleMain} <span style="font-weight:400;">- ${item.titleSub}</span></div>
-        <div class="search-res-desc">${item.desc}</div>
-      </a>`;
+    const a = document.createElement("a");
+    a.href = item.url;
+    a.className = "search-item";
+    a.innerHTML = `
+      <div class="search-item-title">${item.titleMain} - ${item.titleSub}</div>
+      <div class="search-item-desc">${item.desc}</div>
+    `;
+    resultBox.appendChild(a);
   });
+}
+
+function normalizeText(str) {
+  return str
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "D");
 }
