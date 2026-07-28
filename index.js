@@ -219,6 +219,7 @@ function copyToClipboard(text) {
   showToast();
 }
 
+/* Hàm xử lý đóng/mở nút Xem thêm - Thu gọn mượt mà */
 function toggleReadMore(button) {
   const content = button.previousElementSibling;
   if (!content) return;
@@ -231,7 +232,7 @@ function toggleReadMore(button) {
     button.textContent = "Thu gọn";
   } else {
     content.style.maxHeight = content.scrollHeight + "px";
-    void content.offsetHeight;
+    void content.offsetHeight; // Kích hoạt reflow để tạo bước đệm chuyển động
     content.classList.remove("expanded");
     content.style.maxHeight = "46px";
     button.textContent = "Xem thêm";
