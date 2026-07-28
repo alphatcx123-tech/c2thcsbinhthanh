@@ -1,4 +1,4 @@
- *{
+*{
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -654,23 +654,20 @@ a {
   word-break: break-word;
 }
 
+/* Tối ưu hóa chuyển động đóng/mở trượt mượt mà */
 .forum-post-content {
   font-size: 14px;
   line-height: 1.7;
   color: #444;
+  max-height: 46px; /* Chiều cao tối đa ban đầu (~2 dòng) */
   overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
   white-space: normal;
   word-break: break-word;
-  transition: max-height 0.25s ease, opacity 0.25s ease;
+  transition: max-height 0.4s ease-in-out;
 }
 
 .forum-post-content.expanded {
-  display: block;
-  -webkit-line-clamp: unset;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .read-more-btn {
@@ -761,31 +758,6 @@ a {
   font-size: 18px;
   margin-bottom: 10px;
   text-transform: uppercase;
-}
-
-.footer p {
-  color: #444;
-  font-size: 14px;
-  margin: 5px 0;
-}
-
-.developer-section {
-  margin-top: 15px;
-  padding-top: 15px;
-  border-top: 1px solid #eee;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  font-size: 13px;
-  color: #666;
-  flex-wrap: wrap;
-}
-
-.logo-small {
-  height: 30px;
-  width: auto;
-  object-fit: contain;
 }
 
 .footer p {
