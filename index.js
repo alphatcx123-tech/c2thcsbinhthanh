@@ -223,22 +223,17 @@ function toggleReadMore(button) {
   const content = button.previousElementSibling;
   if (!content) return;
 
-  const expanded = content.classList.toggle("expanded");
-  if (expanded) {
+  const isExpanded = content.classList.contains("expanded");
+
+  if (!isExpanded) {
+    content.classList.add("expanded");
     content.style.maxHeight = content.scrollHeight + "px";
     button.textContent = "Thu gọn";
-    setTimeout(() => {
-      if (content.classList.contains("expanded")) {
-        content.style.maxHeight = "none";
-      }
-    }, 400);
   } else {
     content.style.maxHeight = content.scrollHeight + "px";
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        content.style.maxHeight = "46px";
-      });
-    });
+    void content.offsetHeight;
+    content.classList.remove("expanded");
+    content.style.maxHeight = "46px";
     button.textContent = "Xem thêm";
   }
 }
