@@ -90,12 +90,16 @@ a {
 
 .welcome-body ul {
   margin-top: 10px;
-  padding-left: 0;
-  list-style: none;
+  padding-left: 0 !important;
+  list-style: none !important;
+  list-style-type: none !important;
 }
 
 .welcome-body li {
   margin-bottom: 6px;
+  list-style: none !important;
+  list-style-type: none !important;
+  padding-left: 0 !important;
 }
 
 .blink-text {
