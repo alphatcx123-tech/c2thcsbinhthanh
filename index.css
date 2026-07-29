@@ -92,6 +92,7 @@ a {
 .welcome-body ul {
   margin-top: 10px;
   padding-left: 20px;
+  list-style: none;
 }
 
 .welcome-body li {
