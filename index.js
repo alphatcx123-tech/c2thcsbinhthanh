@@ -111,12 +111,19 @@ function renderStat(id, num) {
 function initVisitorCounterPremium() {
   const namespace = "c2thcsbinhthanh_v1";
 
-  // Calculate current date strings
+  const fetchOptions = {
+    method: "GET",
+    cache: "no-store",
+    headers: {
+      "Cache-Control": "no-cache"
+    }
+  };
+
   const now = new Date();
+
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, "0");
   const date = String(now.getDate()).padStart(2, "0");
-
   const todayStr = `${year}${month}${date}`;
   const monthStr = `${year}${month}`;
 
@@ -127,116 +134,58 @@ function initVisitorCounterPremium() {
   const yDate = String(yesterday.getDate()).padStart(2, "0");
   const yesterdayStr = `${yYear}${yMonth}${yDate}`;
 
-  // 1. Hydrate stats from LocalStorage cache
-  let currentStats = {
-    today: 0,
-    yesterday: 0,
-    month: 0,
-    total: 0,
-    cacheDateKey: todayStr
-  };
-
-  try {
-    const raw = localStorage.getItem("visitor_stats_cache_v3");
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (parsed) {
-        if (parsed.cacheDateKey === todayStr) {
-          currentStats = { ...currentStats, ...parsed };
-        } else {
-          // Carry over previous values if new day
-          currentStats.yesterday = parsed.today || parsed.yesterday || 0;
-          currentStats.month = parsed.month || 0;
-          currentStats.total = parsed.total || 0;
-          currentStats.today = 0;
-          currentStats.cacheDateKey = todayStr;
-        }
-      }
-    }
-  } catch (e) {
-    console.error("Cache read error:", e);
-  }
-
-  // Display cached values instantly
-  if (currentStats.today > 0) renderStat("valHomNay", currentStats.today);
-  if (currentStats.yesterday > 0) renderStat("valHomQua", currentStats.yesterday);
-  if (currentStats.month > 0) renderStat("valThang", currentStats.month);
-  if (currentStats.total > 0) renderStat("valNam", currentStats.total);
-
-  function saveCache() {
-    try {
-      localStorage.setItem("visitor_stats_cache_v3", JSON.stringify(currentStats));
-    } catch (e) {}
-  }
-
-  // Helper fetch function with 8s timeout and 1 automatic retry
-  function fetchMetricWithRetry(endpointAction, key, retries = 1) {
-    const url = `https://countapi.mileshilliard.com/api/v1/${endpointAction}/${namespace}_${key}`;
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000);
-
-    return fetch(url, {
-      method: "GET",
-      cache: "no-store",
-      headers: { "Cache-Control": "no-cache" },
-      signal: controller.signal
-    })
+  function updateCounterEl(url, elementId, opts) {
+    opts = opts || {};
+    return fetch(url, fetchOptions)
       .then((res) => {
-        clearTimeout(timeoutId);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        if (opts.requireOk && !res.ok) throw new Error(opts.notFoundMessage);
         return res.json();
       })
       .then((data) => {
-        if (data && typeof data.value === "number") return data.value;
-        throw new Error("Invalid response data");
-      })
-      .catch(() => {
-        clearTimeout(timeoutId);
-        if (retries > 0) {
-          return new Promise((resolve) => setTimeout(resolve, 1000)).then(() =>
-            fetchMetricWithRetry(endpointAction, key, retries - 1)
-          );
+        const el = document.getElementById(elementId);
+        if (el && data && typeof data.value !== "undefined") {
+          el.innerText = data.value.toLocaleString("vi-VN");
         }
-        return null;
+      })
+      .catch((err) => {
+        if (opts.onError) {
+          opts.onError(err);
+        } else {
+          console.error(opts.errorLabel, err);
+        }
       });
   }
 
-  // Fetch each metric independently & update DOM immediately upon arrival
-  // 1. Today (HIT)
-  fetchMetricWithRetry("hit", `day_${todayStr}`).then((val) => {
-    if (val !== null) {
-      currentStats.today = val;
-      renderStat("valHomNay", val);
-      saveCache();
-    }
-  });
+  updateCounterEl(
+    `https://countapi.mileshilliard.com/api/v1/hit/${namespace}_total`,
+    "valNam",
+    { errorLabel: "Lỗi đồng bộ tổng:" }
+  );
 
-  // 2. Yesterday (GET)
-  fetchMetricWithRetry("get", `day_${yesterdayStr}`).then((val) => {
-    if (val !== null) {
-      currentStats.yesterday = val;
-      renderStat("valHomQua", val);
-      saveCache();
-    }
-  });
+  updateCounterEl(
+    `https://countapi.mileshilliard.com/api/v1/hit/${namespace}_day_${todayStr}`,
+    "valHomNay",
+    { errorLabel: "Lỗi đồng bộ ngày:" }
+  );
 
-  // 3. This Month (HIT)
-  fetchMetricWithRetry("hit", `month_${monthStr}`).then((val) => {
-    if (val !== null) {
-      currentStats.month = val;
-      renderStat("valThang", val);
-      saveCache();
-    }
-  });
+  updateCounterEl(
+    `https://countapi.mileshilliard.com/api/v1/hit/${namespace}_month_${monthStr}`,
+    "valThang",
+    { errorLabel: "Lỗi đồng bộ tháng:" }
+  );
 
-  // 4. Total (HIT)
-  fetchMetricWithRetry("hit", "total").then((val) => {
-    if (val !== null) {
-      currentStats.total = val;
-      renderStat("valNam", val);
-      saveCache();
+  updateCounterEl(
+    `https://countapi.mileshilliard.com/api/v1/get/${namespace}_day_${yesterdayStr}`,
+    "valHomQua",
+    {
+      requireOk: true,
+      notFoundMessage: "Chưa có data hôm qua",
+      onError: () => {
+        const elHQ = document.getElementById("valHomQua");
+        if (elHQ) elHQ.innerText = "0";
+      }
     }
-  });
+  );
 }
 
 function initBackToTop() {
