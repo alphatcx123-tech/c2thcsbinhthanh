@@ -37,8 +37,22 @@ function unlockWelcomeScroll() {
 window.addEventListener("DOMContentLoaded", () => {
   const welcomeBox = document.getElementById("welcomeNotification");
   if (welcomeBox) {
-    welcomeBox.style.display = "flex";
-    lockWelcomeScroll();
+    let shouldHide = false;
+    try {
+      const hideUntil = localStorage.getItem("welcome_modal_hide_until");
+      if (hideUntil && Date.now() < parseInt(hideUntil, 10)) {
+        shouldHide = true;
+      }
+    } catch (e) {
+      console.error("LocalStorage check error:", e);
+    }
+
+    if (shouldHide) {
+      welcomeBox.style.display = "none";
+    } else {
+      welcomeBox.style.display = "flex";
+      lockWelcomeScroll();
+    }
   }
 
   updateTimeAndStats();
@@ -66,6 +80,16 @@ function closeWelcomeModal() {
   }, 300);
 }
 
+function closeWelcomeModal2Hours() {
+  const twoHoursMs = 2 * 60 * 60 * 1000;
+  try {
+    localStorage.setItem("welcome_modal_hide_until", (Date.now() + twoHoursMs).toString());
+  } catch (e) {
+    console.error("LocalStorage write error:", e);
+  }
+  closeWelcomeModal();
+}
+
 function updateTimeAndStats() {
   const now = new Date();
   const h = String(now.getHours()).padStart(2, "0");
@@ -77,19 +101,42 @@ function updateTimeAndStats() {
 }
 setInterval(updateTimeAndStats, 1000);
 
+function renderStat(id, num) {
+  const el = document.getElementById(id);
+  if (el && num !== null && typeof num !== "undefined") {
+    el.innerText = Number(num).toLocaleString("vi-VN");
+  }
+}
+
 function initVisitorCounterPremium() {
   const namespace = "c2thcsbinhthanh_v1";
 
-  const fetchOptions = {
-    method: "GET",
-    cache: "no-store",
-    headers: {
-      "Cache-Control": "no-cache"
-    }
+  // Fallback defaults if no cache and network unavailable
+  const fallbackStats = {
+    today: 8,
+    yesterday: 51,
+    month: 360,
+    total: 361
   };
 
-  const now = new Date();
+  // 1. Immediately hydrate from LocalStorage cache for 0ms display latency
+  let cached = null;
+  try {
+    const raw = localStorage.getItem("visitor_stats_cache_v2");
+    if (raw) cached = JSON.parse(raw);
+  } catch (e) {
+    console.error("Cache read error:", e);
+  }
 
+  const currentStats = cached || fallbackStats;
+
+  renderStat("valHomNay", currentStats.today);
+  renderStat("valHomQua", currentStats.yesterday);
+  renderStat("valThang", currentStats.month);
+  renderStat("valNam", currentStats.total);
+
+  // 2. Date keys for API
+  const now = new Date();
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, "0");
   const date = String(now.getDate()).padStart(2, "0");
@@ -104,58 +151,76 @@ function initVisitorCounterPremium() {
   const yDate = String(yesterday.getDate()).padStart(2, "0");
   const yesterdayStr = `${yYear}${yMonth}${yDate}`;
 
-  function updateCounterEl(url, elementId, opts) {
-    opts = opts || {};
-    return fetch(url, fetchOptions)
+  // 3. Prevent repeated hit incrementing in the same session
+  let hasHitThisSession = false;
+  try {
+    hasHitThisSession = sessionStorage.getItem("visitor_hit_" + todayStr) === "true";
+  } catch (e) {}
+
+  const action = hasHitThisSession ? "get" : "hit";
+
+  // Helper fetch function with fast 2.5s timeout
+  function fetchMetric(endpointAction, key) {
+    const url = `https://countapi.mileshilliard.com/api/v1/${endpointAction}/${namespace}_${key}`;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2500);
+
+    return fetch(url, {
+      method: "GET",
+      cache: "no-store",
+      headers: { "Cache-Control": "no-cache" },
+      signal: controller.signal
+    })
       .then((res) => {
-        if (opts.requireOk && !res.ok) throw new Error(opts.notFoundMessage);
+        clearTimeout(timeoutId);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
       })
-      .then((data) => {
-        const el = document.getElementById(elementId);
-        if (el && data && typeof data.value !== "undefined") {
-          el.innerText = data.value.toLocaleString("vi-VN");
-        }
-      })
-      .catch((err) => {
-        if (opts.onError) {
-          opts.onError(err);
-        } else {
-          console.error(opts.errorLabel, err);
-        }
+      .then((data) => (data && typeof data.value === "number" ? data.value : null))
+      .catch(() => {
+        clearTimeout(timeoutId);
+        return null;
       });
   }
 
-  updateCounterEl(
-    `https://countapi.mileshilliard.com/api/v1/hit/${namespace}_total`,
-    "valNam",
-    { errorLabel: "Lỗi đồng bộ tổng:" }
-  );
-
-  updateCounterEl(
-    `https://countapi.mileshilliard.com/api/v1/hit/${namespace}_day_${todayStr}`,
-    "valHomNay",
-    { errorLabel: "Lỗi đồng bộ ngày:" }
-  );
-
-  updateCounterEl(
-    `https://countapi.mileshilliard.com/api/v1/hit/${namespace}_month_${monthStr}`,
-    "valThang",
-    { errorLabel: "Lỗi đồng bộ tháng:" }
-  );
-
-  updateCounterEl(
-    `https://countapi.mileshilliard.com/api/v1/get/${namespace}_day_${yesterdayStr}`,
-    "valHomQua",
-    {
-      requireOk: true,
-      notFoundMessage: "Chưa có data hôm qua",
-      onError: () => {
-        const elHQ = document.getElementById("valHomQua");
-        if (elHQ) elHQ.innerText = "0";
-      }
+  // Fetch all metrics concurrently in background
+  Promise.allSettled([
+    fetchMetric(action, `day_${todayStr}`),
+    fetchMetric("get", `day_${yesterdayStr}`),
+    fetchMetric(action, `month_${monthStr}`),
+    fetchMetric(action, "total")
+  ]).then(([resToday, resYesterday, resMonth, resTotal]) => {
+    // If hit succeeded, mark session hit
+    if (action === "hit" && resToday.status === "fulfilled" && resToday.value !== null) {
+      try {
+        sessionStorage.setItem("visitor_hit_" + todayStr, "true");
+      } catch (e) {}
     }
-  );
+
+    const updated = { ...currentStats };
+
+    if (resToday.status === "fulfilled" && resToday.value !== null) {
+      updated.today = resToday.value;
+      renderStat("valHomNay", updated.today);
+    }
+    if (resYesterday.status === "fulfilled" && resYesterday.value !== null) {
+      updated.yesterday = resYesterday.value;
+      renderStat("valHomQua", updated.yesterday);
+    }
+    if (resMonth.status === "fulfilled" && resMonth.value !== null) {
+      updated.month = resMonth.value;
+      renderStat("valThang", updated.month);
+    }
+    if (resTotal.status === "fulfilled" && resTotal.value !== null) {
+      updated.total = resTotal.value;
+      renderStat("valNam", updated.total);
+    }
+
+    // Save updated metrics to local storage cache
+    try {
+      localStorage.setItem("visitor_stats_cache_v2", JSON.stringify(updated));
+    } catch (e) {}
+  });
 }
 
 function initBackToTop() {
