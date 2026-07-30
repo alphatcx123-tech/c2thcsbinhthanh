@@ -113,8 +113,38 @@ a {
 .welcome-footer {
   padding: 12px 20px;
   background: #f8f9fa;
-  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
   border-top: 1px solid #eee;
+  flex-wrap: wrap;
+}
+
+.btn-close-2h {
+  background: #f1f3f5;
+  color: #495057;
+  border: 1px solid #ced4da;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-close-2h:hover {
+  background: #ffebee;
+  color: #D32F2F;
+  border-color: #D32F2F;
+  transform: translateY(-1px);
+}
+
+.btn-close-2h:active {
+  transform: translateY(0);
 }
 
 .btn-close-welcome {
