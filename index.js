@@ -151,13 +151,8 @@ function initVisitorCounterPremium() {
   const yDate = String(yesterday.getDate()).padStart(2, "0");
   const yesterdayStr = `${yYear}${yMonth}${yDate}`;
 
-  // 3. Prevent repeated hit incrementing in the same session
-  let hasHitThisSession = false;
-  try {
-    hasHitThisSession = sessionStorage.getItem("visitor_hit_" + todayStr) === "true";
-  } catch (e) {}
-
-  const action = hasHitThisSession ? "get" : "hit";
+  // 3. Every page load/reload triggers a hit to increment visitor count
+  const action = "hit";
 
   // Helper fetch function with fast 2.5s timeout
   function fetchMetric(endpointAction, key) {
@@ -190,13 +185,6 @@ function initVisitorCounterPremium() {
     fetchMetric(action, `month_${monthStr}`),
     fetchMetric(action, "total")
   ]).then(([resToday, resYesterday, resMonth, resTotal]) => {
-    // If hit succeeded, mark session hit
-    if (action === "hit" && resToday.status === "fulfilled" && resToday.value !== null) {
-      try {
-        sessionStorage.setItem("visitor_hit_" + todayStr, "true");
-      } catch (e) {}
-    }
-
     const updated = { ...currentStats };
 
     if (resToday.status === "fulfilled" && resToday.value !== null) {
