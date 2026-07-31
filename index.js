@@ -58,6 +58,10 @@ window.addEventListener("DOMContentLoaded", () => {
   updateTimeAndStats();
   initVisitorCounterPremium();
   initBackToTop();
+  
+  checkCookieConsent();
+  applySavedTheme();
+  setLanguage(getInitialLanguage());
 });
 
 function closeWelcomeModal() {
@@ -295,12 +299,13 @@ function toggleReadMore(button) {
     const fullHeight = content.scrollHeight;
 
     content.style.maxHeight = startHeight + "px";
-    content.offsetHeight; // trigger reflow
+    content.offsetHeight;
 
     content.style.maxHeight = fullHeight + "px";
 
     button.classList.add("expanded-btn");
-    button.innerHTML = 'Thu gọn <span class="btn-icon">▼</span>';
+    const lang = localStorage.getItem("site_lang") || "vi";
+    button.innerHTML = lang === "en" ? 'Collapse <span class="btn-icon">▼</span>' : 'Thu gọn <span class="btn-icon">▼</span>';
 
     setTimeout(() => {
       if (content.classList.contains("expanded")) {
@@ -310,13 +315,14 @@ function toggleReadMore(button) {
   } else {
     const fullHeight = content.scrollHeight;
     content.style.maxHeight = fullHeight + "px";
-    content.offsetHeight; // trigger reflow
+    content.offsetHeight;
 
     content.style.maxHeight = "48px";
     content.classList.remove("expanded");
 
     button.classList.remove("expanded-btn");
-    button.innerHTML = 'Xem thêm <span class="btn-icon">▼</span>';
+    const lang = localStorage.getItem("site_lang") || "vi";
+    button.innerHTML = lang === "en" ? 'Read more <span class="btn-icon">▼</span>' : 'Xem thêm <span class="btn-icon">▼</span>';
 
     setTimeout(() => {
       if (!content.classList.contains("expanded")) {
@@ -368,7 +374,9 @@ function handleSearch() {
   });
 
   if (filtered.length === 0) {
-    resultBox.innerHTML = `<p style="font-size:13px; color:#666; padding:10px;">Không tìm thấy kết quả.</p>`;
+    const lang = localStorage.getItem("site_lang") || "vi";
+    const noResultTxt = lang === "en" ? "No results found." : "Không tìm thấy kết quả.";
+    resultBox.innerHTML = `<p style="font-size:13px; color:#666; padding:10px;">${noResultTxt}</p>`;
     return;
   }
 
@@ -381,3 +389,78 @@ function handleSearch() {
   });
 }
 
+function checkCookieConsent() {
+  const consent = localStorage.getItem("cookie_consent");
+  const banner = document.getElementById("cookieBanner");
+  if (!consent && banner) {
+    banner.style.display = "block";
+  }
+}
+
+function acceptCookies() {
+  localStorage.setItem("cookie_consent", "accepted");
+  const banner = document.getElementById("cookieBanner");
+  if (banner) banner.style.display = "none";
+}
+
+function declineCookies() {
+  localStorage.setItem("cookie_consent", "declined");
+  const banner = document.getElementById("cookieBanner");
+  if (banner) banner.style.display = "none";
+}
+
+function toggleTheme() {
+  const isDark = document.body.classList.toggle("dark-mode");
+  const icon = document.getElementById("themeIcon");
+  if (icon) {
+    if (isDark) {
+      icon.className = "fa-solid fa-sun";
+      icon.style.color = "#f39c12";
+    } else {
+      icon.className = "fa-solid fa-moon";
+      icon.style.color = "";
+    }
+  }
+  localStorage.setItem("site_theme", isDark ? "dark" : "light");
+}
+
+function applySavedTheme() {
+  const savedTheme = localStorage.getItem("site_theme");
+  const icon = document.getElementById("themeIcon");
+  if (savedTheme === "dark") {
+    document.body.classList.add("dark-mode");
+    if (icon) {
+      icon.className = "fa-solid fa-sun";
+      icon.style.color = "#f39c12";
+    }
+  }
+}
+
+function getInitialLanguage() {
+  const savedLang = localStorage.getItem("site_lang");
+  if (savedLang) return savedLang;
+  const userLang = navigator.language || navigator.userLanguage;
+  if (userLang && userLang.toLowerCase().startsWith("en")) {
+    return "en";
+  }
+  return "vi";
+}
+
+function setLanguage(lang) {
+  localStorage.setItem("site_lang", lang);
+  const elements = document.querySelectorAll("[data-vi][data-en]");
+  elements.forEach((el) => {
+    const text = lang === "en" ? el.getAttribute("data-en") : el.getAttribute("data-vi");
+    if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+      el.placeholder = text;
+    } else {
+      el.innerHTML = text;
+    }
+  });
+}
+
+function toggleLanguage() {
+  const currentLang = localStorage.getItem("site_lang") || getInitialLanguage();
+  const nextLang = currentLang === "vi" ? "en" : "vi";
+  setLanguage(nextLang);
+}
