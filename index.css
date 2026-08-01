@@ -17,7 +17,26 @@ body {
 
 body.dark-mode {
   background-color: #121212 !important;
-  color: #e0e0e0 !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode * {
+  color: #ffffff;
+}
+
+body.dark-mode a {
+  color: #82b1ff;
+}
+
+body.dark-mode [style*="color: #D32F2F"],
+body.dark-mode [style*="color:#D32F2F"],
+body.dark-mode [style*="color: red"],
+body.dark-mode [style*="color:red"],
+body.dark-mode .forum-link,
+body.dark-mode .warning-card .card-title,
+body.dark-mode .red-text,
+body.dark-mode .text-danger {
+  color: #ff8a80 !important;
 }
 
 body.dark-mode .widget,
@@ -26,7 +45,7 @@ body.dark-mode .welcome-box,
 body.dark-mode .footer {
   background-color: #1e1e1e !important;
   border-color: #333 !important;
-  color: #e0e0e0 !important;
+  color: #ffffff !important;
 }
 
 body.dark-mode .info-bar {
@@ -35,7 +54,7 @@ body.dark-mode .info-bar {
 }
 
 body.dark-mode .clock-section {
-  color: #e0e0e0 !important;
+  color: #ffffff !important;
   border-right-color: #555 !important;
 }
 
@@ -43,8 +62,9 @@ body.dark-mode .ticker-text {
   color: #90caf9 !important;
 }
 
-body.dark-mode .menu-list a, body.dark-mode .stat-label-p {
-  color: #bbb !important;
+body.dark-mode .menu-list a, 
+body.dark-mode .stat-label-p {
+  color: #e0e0e0 !important;
 }
 
 body.dark-mode .menu-list a:hover {
@@ -58,14 +78,14 @@ body.dark-mode .menu-list li {
 body.dark-mode .link-btn {
   background: #2a2a2a !important;
   border-color: #444 !important;
-  color: #ef5350 !important;
+  color: #ff8a80 !important;
 }
 
 body.dark-mode .stat-row-premium,
 body.dark-mode .project-row-premium {
   background-color: #252525 !important;
   border-left-color: #90caf9 !important;
-  color: #e0e0e0 !important;
+  color: #ffffff !important;
 }
 
 body.dark-mode .stat-row-premium:hover,
@@ -73,33 +93,35 @@ body.dark-mode .project-row-premium:hover {
   background-color: #2a2a2a !important;
 }
 
+body.dark-mode .stat-number-p {
+  color: #90caf9 !important;
+}
+
 body.dark-mode .content-card,
 body.dark-mode .image-card,
 body.dark-mode .forum-post {
   background: #252525 !important;
   border-color: #383838 !important;
-  color: #d1d1d1 !important;
+  color: #ffffff !important;
 }
 
 body.dark-mode .card-desc,
-body.dark-mode .forum-post-content {
-  color: #b0b0b0 !important;
+body.dark-mode .forum-post-content,
+body.dark-mode .welcome-body,
+body.dark-mode .search-res-desc {
+  color: #e0e0e0 !important;
 }
 
-body.dark-mode .card-title {
+body.dark-mode .card-title,
+body.dark-mode .forum-post-title,
+body.dark-mode .search-res-title {
   color: #90caf9 !important;
 }
 
-body.dark-mode .warning-card .card-title {
-  color: #ef5350 !important;
-}
-
-body.dark-mode .footer h3 {
-  color: #fff !important;
-}
-
-body.dark-mode .footer p {
-  color: #aaa !important;
+body.dark-mode .footer h3,
+body.dark-mode .footer p,
+body.dark-mode .developer-section {
+  color: #ffffff !important;
 }
 
 body.dark-mode .search-input-wrapper {
@@ -108,19 +130,19 @@ body.dark-mode .search-input-wrapper {
 }
 
 body.dark-mode .search-input-wrapper input {
-  color: #fff !important;
+  color: #ffffff !important;
   background: transparent !important;
 }
 
 body.dark-mode .btn-overlay {
   background: rgba(30, 30, 30, 0.9) !important;
-  color: #fff !important;
+  color: #ffffff !important;
   border-color: #90caf9 !important;
 }
 
 body.dark-mode .dropdown {
   background: #2a2a2a !important;
-  color: #fff !important;
+  color: #ffffff !important;
   border-color: #444 !important;
 }
 
@@ -131,12 +153,43 @@ body.dark-mode .welcome-footer {
 
 body.dark-mode .btn-close-2h {
   background: #333 !important;
-  color: #e0e0e0 !important;
+  color: #ffffff !important;
   border-color: #555 !important;
+}
+
+body.dark-mode .copy-btn {
+  background: #333 !important;
+  border-color: #555 !important;
+  color: #ffffff !important;
 }
 
 body.dark-mode .forum-post-content::after {
   background: linear-gradient(180deg, rgba(37,37,37,0) 0%, rgba(37,37,37,1) 100%) !important;
+}
+
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode div,
+body.dark-mode li,
+body.dark-mode label {
+  color: #ffffff;
+}
+
+body.dark-mode #scrollToBottomBtn,
+body.dark-mode #backToTopBtn {
+  background-color: #0d47a1;
+  color: #ffffff;
+}
+
+body.dark-mode #scrollToBottomBtn:hover,
+body.dark-mode #backToTopBtn:hover {
+  background-color: #e53935;
 }
 
 .cookie-banner {
