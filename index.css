@@ -382,6 +382,21 @@ a {
   50% { opacity: 0.3; }
 }
 
+#progressBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: #D32F2F;
+  width: 0%;
+  z-index: 99999;
+  transition: width 0.1s ease;
+}
+
+body.dark-mode #progressBar {
+  background: #ff6b6b !important;
+}
+
 .welcome-footer {
   padding: 12px 20px;
   background: #f8f9fa;
