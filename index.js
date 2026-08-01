@@ -55,6 +55,16 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  window.addEventListener("scroll", () => {
+  const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const scrolled = (winScroll / height) * 100;
+  const bar = document.getElementById("progressBar");
+  if (bar) {
+    bar.style.width = scrolled + "%";
+  }
+});
+
   updateTimeAndStats();
   initVisitorCounterPremium();
   initBackToTop();
