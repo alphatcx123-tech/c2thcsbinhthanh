@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             setTimeout(() => {
                 window.location.href = url;
-            }, 700); // phải bằng thời gian animation
+            }, 700);
         });
 
     });
