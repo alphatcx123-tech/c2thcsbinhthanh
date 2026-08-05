@@ -6,7 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
             link.target === "_blank" ||
             link.hasAttribute("download") ||
             link.href.startsWith("mailto:") ||
-            link.href.startsWith("tel:")
+            link.href.startsWith("tel:") ||
+            link.href.startsWith("javascript:")
         ) return;
 
         link.addEventListener("click", function (e) {
@@ -21,7 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             setTimeout(() => {
                 window.location.href = url;
-            }, 700);
+            }, 400);
+
         });
 
     });
