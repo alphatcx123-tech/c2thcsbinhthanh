@@ -1,3 +1,8 @@
+## Chào Mọi Người 👋
+# 🌐 Website THCS Bình Thành
+
+Website giới thiệu và cung cấp thông tin cho trường THCS Bình Thành
+
 # 🏫 THCS Bình Thành — Digital School Platform
 
 <p align="center">
