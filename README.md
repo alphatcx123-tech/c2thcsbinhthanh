@@ -1611,7 +1611,7 @@ URL API
 
 > **Build simple. Think deep. Create useful things.**
 
-📝 **Smart Text Counter & File Editor**
+📝 **C2THCSBINHTHANH**
 
 ⚡ Lightweight.
 🌐 Browser-based.
