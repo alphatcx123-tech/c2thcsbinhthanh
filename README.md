@@ -1607,6 +1607,19 @@ URL API
 
 ---
 
+# ❤️ Made by ATCX
+
+> **Build simple. Think deep. Create useful things.**
+
+📝 **Smart Text Counter & File Editor**
+
+⚡ Lightweight.
+🌐 Browser-based.
+🔒 Client-side.
+🚀 Built with Web Technologies.
+
+---
+
 # 📜 License
 
 Bản quyền nội dung, hình ảnh, source code và thương hiệu thuộc chủ sở hữu dự án.
