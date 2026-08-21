@@ -150,18 +150,38 @@ function initVisitorCounterPremium() {
 
   function updateCounterEl(url, elementId, opts) {
     opts = opts || {};
+
     return fetch(url, fetchOptions)
       .then((res) => {
-        if (opts.requireOk && !res.ok) throw new Error(opts.notFoundMessage);
+        // CountAPI trả 404 khi counter của ngày đó chưa từng được tạo.
+        // Trường hợp này phải được xem là 0, không phải lỗi hiển thị.
+        if (!res.ok) {
+          if (res.status === 404 && opts.missingIsZero) return { value: 0 };
+          throw new Error(opts.notFoundMessage || `HTTP ${res.status}`);
+        }
         return res.json();
       })
       .then((data) => {
         const el = document.getElementById(elementId);
-        if (el && data && typeof data.value !== "undefined") {
-          el.innerText = data.value.toLocaleString("vi-VN");
-        }
+        if (!el) return;
+
+        const value = Number(data && data.value);
+
+        // Không có counter / dữ liệu không hợp lệ => luôn hiển thị 0.
+        el.innerText = Number.isFinite(value) && value >= 0
+          ? value.toLocaleString("vi-VN")
+          : "0";
       })
       .catch((err) => {
+        const el = document.getElementById(elementId);
+
+        // Đặc biệt với thống kê theo ngày: nếu không có dữ liệu
+        // thì ngày đó thực sự có 0 lượt truy cập.
+        if (opts.missingIsZero && el) {
+          el.innerText = "0";
+          return;
+        }
+
         if (opts.onError) {
           opts.onError(err);
         } else {
@@ -192,12 +212,10 @@ function initVisitorCounterPremium() {
     `https://countapi.mileshilliard.com/api/v1/get/${namespace}_day_${yesterdayStr}`,
     "valHomQua",
     {
-      requireOk: true,
-      notFoundMessage: "Chưa có data hôm qua",
-      onError: () => {
-        const elHQ = document.getElementById("valHomQua");
-        if (elHQ) elHQ.innerText = "0";
-      }
+      // Nếu hôm qua không có ai truy cập thì counter không tồn tại (404).
+      // Khi đó "Hôm qua" phải là 0.
+      missingIsZero: true,
+      errorLabel: "Lỗi đọc thống kê hôm qua:"
     }
   );
 }
@@ -474,3 +492,134 @@ function toggleLanguage() {
   const nextLang = currentLang === "vi" ? "en" : "vi";
   setLanguage(nextLang);
 }
+
+document.querySelectorAll("[data-external-event]").forEach(function(element) {
+  const eventId = element.getAttribute("data-external-event");
+  switch (eventId) {
+    case "evt_1":
+      element.addEventListener("click", function(event) {
+        acceptCookies()
+      });
+      break;
+    case "evt_2":
+      element.addEventListener("click", function(event) {
+        declineCookies()
+      });
+      break;
+    case "evt_3":
+      element.addEventListener("click", function(event) {
+        closeWelcomeModal2Hours()
+      });
+      break;
+    case "evt_4":
+      element.addEventListener("click", function(event) {
+        closeWelcomeModal()
+      });
+      break;
+    case "evt_5":
+      element.addEventListener("click", function(event) {
+        openModal('emailModal')
+      });
+      break;
+    case "evt_6":
+      element.addEventListener("click", function(event) {
+        toggleLanguage()
+      });
+      break;
+    case "evt_7":
+      element.addEventListener("click", function(event) {
+        openModal('searchModal')
+      });
+      break;
+    case "evt_8":
+      element.addEventListener("click", function(event) {
+        toggleTheme()
+      });
+      break;
+    case "evt_9":
+      element.addEventListener("error", function(event) {
+        this.src='https://via.placeholder.com/1000x200?text=Trường+THCS+Bình+Thành'
+      });
+      break;
+    case "evt_10":
+      element.addEventListener("change", function(event) {
+        if(this.value) window.open(this.value,'_blank')
+      });
+      break;
+    case "evt_11":
+      element.addEventListener("error", function(event) {
+        this.src='https://via.placeholder.com/300x160?text=8.png'
+      });
+      break;
+    case "evt_12":
+      element.addEventListener("error", function(event) {
+        this.src='https://via.placeholder.com/300x160?text=9.png'
+      });
+      break;
+    case "evt_13":
+      element.addEventListener("error", function(event) {
+        this.src='https://via.placeholder.com/300x160?text=10.png'
+      });
+      break;
+    case "evt_14":
+      element.addEventListener("error", function(event) {
+        this.src='https://via.placeholder.com/300x160?text=Hình+ảnh+5.jpg'
+      });
+      break;
+    case "evt_15":
+      element.addEventListener("error", function(event) {
+        this.src='https://via.placeholder.com/300x160?text=Hình+ảnh+6.jpg'
+      });
+      break;
+    case "evt_16":
+      element.addEventListener("error", function(event) {
+        this.src='https://via.placeholder.com/300x160?text=Hình+ảnh+7.jpg'
+      });
+      break;
+    case "evt_17":
+      element.addEventListener("click", function(event) {
+        toggleReadMore(this)
+      });
+      break;
+    case "evt_18":
+      element.addEventListener("error", function(event) {
+        this.src='https://via.placeholder.com/80x30?text=Logo+2'
+      });
+      break;
+    case "evt_19":
+      element.addEventListener("error", function(event) {
+        this.src='https://via.placeholder.com/80x30?text=Logo+3'
+      });
+      break;
+    case "evt_20":
+      element.addEventListener("error", function(event) {
+        this.src='https://via.placeholder.com/80x30?text=logo+4'
+      });
+      break;
+    case "evt_21":
+      element.addEventListener("click", function(event) {
+        closeModal('searchModal')
+      });
+      break;
+    case "evt_22":
+      element.addEventListener("input", function(event) {
+        handleSearch()
+      });
+      break;
+    case "evt_23":
+      element.addEventListener("click", function(event) {
+        closeModal('emailModal')
+      });
+      break;
+    case "evt_24":
+      element.addEventListener("click", function(event) {
+        copyToClipboard('truongthcsbinhthanh.edu@gmail.com')
+      });
+      break;
+    case "evt_25":
+      element.addEventListener("click", function(event) {
+        copyToClipboard('lienhecongviec.huymc5428@gmail.com')
+      });
+      break;
+  }
+});

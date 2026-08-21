@@ -187,4 +187,7 @@
       .subtitle, .content { font-size: 16px; }
       .banner { height: 180px; }
     }
-  
+
+.extracted-style-1 {
+  border: 0; border-top: 1px dashed #ccc; margin: 20px 0;
+}

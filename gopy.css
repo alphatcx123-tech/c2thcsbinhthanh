@@ -1,22 +1,21 @@
-
-    * {
+* {
       box-sizing: border-box;
     }
 
-    body {
+body {
       margin: 0;
       font-family: Arial, sans-serif;
       background: #f4f6fb;
       color: #222;
     }
 
-    .container {
+.container {
       max-width: 800px;
       margin: 0 auto;
       padding: 20px;
     }
 
-    .card {
+.card {
       background: #fff;
       border-radius: 18px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
@@ -24,14 +23,14 @@
       padding-bottom: 30px;
     }
 
-    .banner {
+.banner {
       width: 100%;
       height: 220px;
       object-fit: cover;
       display: block;
     }
 
-    h1 {
+h1 {
       margin: 25px 0 10px;
       color: #d40000;
       text-align: center;
@@ -40,7 +39,7 @@
       font-weight: bold;
     }
 
-    .subtitle {
+.subtitle {
       text-align: center;
       font-size: 16px;
       color: #555;
@@ -48,12 +47,12 @@
       line-height: 1.5;
     }
 
-    .menu-sections {
+.menu-sections {
       display: block;
       margin: 0 22px 30px;
     }
 
-    .section-title {
+.section-title {
       font-size: 20px;
       color: navy;
       border-left: 5px solid #d40000;
@@ -62,7 +61,7 @@
       font-weight: bold;
     }
 
-    .form-box {
+.form-box {
       background: #fdf2f2;
       border: 1px solid #fbc4c4;
       border-radius: 12px;
@@ -71,13 +70,13 @@
       margin-bottom: 30px;
     }
 
-    .form-box p {
+.form-box p {
       font-size: 16px;
       margin: 0 0 15px;
       color: #444;
     }
 
-    .btn-submit-gopy {
+.btn-submit-gopy {
       display: inline-block;
       padding: 14px 28px;
       background: #d40000;
@@ -90,17 +89,17 @@
       transition: all 0.3s ease;
     }
 
-    .btn-submit-gopy:hover {
+.btn-submit-gopy:hover {
       background: #b00000;
       transform: translateY(-2px);
       box-shadow: 0 6px 15px rgba(212, 0, 0, 0.3);
     }
 
-    .search-container {
+.search-container {
       margin-bottom: 15px;
     }
 
-    .search-box {
+.search-box {
       width: 100%;
       padding: 12px 15px;
       font-size: 15px;
@@ -110,11 +109,11 @@
       transition: border-color 0.2s ease;
     }
 
-    .search-box:focus {
+.search-box:focus {
       border-color: navy;
     }
 
-    .letters-list {
+.letters-list {
       max-height: 600px;
       overflow-y: auto;
       border: 1px solid #eee;
@@ -123,7 +122,7 @@
       background: #fafafa;
     }
 
-    .letter-item {
+.letter-item {
       background: #fff;
       border: 1px solid #eef2f5;
       border-radius: 10px;
@@ -133,11 +132,11 @@
       transition: all 0.2s ease;
     }
 
-    .letter-item:hover {
+.letter-item:hover {
       box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
 
-    .letter-header {
+.letter-header {
       padding: 15px 20px;
       background: #fff;
       cursor: pointer;
@@ -151,16 +150,16 @@
       transition: background 0.2s ease;
     }
 
-    .letter-header:hover {
+.letter-header:hover {
       background: #f4f6fb;
     }
 
-    .letter-header .letter-title {
+.letter-header .letter-title {
       flex: 1;
       padding-right: 15px;
     }
 
-    .letter-header .badge {
+.letter-header .badge {
       background: #e2f9e9;
       color: #1e7e34;
       padding: 4px 10px;
@@ -170,7 +169,7 @@
       white-space: nowrap;
     }
 
-    .letter-header::after {
+.letter-header::after {
       content: '▼';
       font-size: 12px;
       color: #888;
@@ -178,11 +177,11 @@
       margin-left: 10px;
     }
 
-    .letter-item.active .letter-header::after {
+.letter-item.active .letter-header::after {
       transform: rotate(180deg);
     }
 
-    .letter-body {
+.letter-body {
       max-height: 0;
       opacity: 0;
       padding: 0 20px;
@@ -190,16 +189,20 @@
       border-top: 0 solid #f1f1f1;
       background: #fcfdfe;
       transition: max-height 0.35s ease, opacity 0.3s ease, padding 0.3s ease, border-top-width 0.3s ease;
-    }
+  display: none;
+  padding: 20px;
+  border-top: 1px solid #f1f1f1;
+}
 
-    .letter-item.active .letter-body {
+.letter-item.active .letter-body {
       max-height: 2000px;
       opacity: 1;
       padding: 20px;
       border-top: 1px solid #f1f1f1;
-    }
+  display: block;
+}
 
-    .gopy-content {
+.gopy-content {
       background: #f8f9fa;
       border-left: 4px solid #6c757d;
       padding: 15px;
@@ -207,7 +210,7 @@
       margin-bottom: 15px;
     }
 
-    .gopy-content h4 {
+.gopy-content h4 {
       margin: 0 0 8px 0;
       color: #495057;
       font-size: 15px;
@@ -216,7 +219,7 @@
       gap: 6px;
     }
 
-    .gopy-content p {
+.gopy-content p {
       margin: 0;
       font-size: 15px;
       line-height: 1.6;
@@ -224,14 +227,14 @@
       text-align: justify;
     }
 
-    .traloi-content {
+.traloi-content {
       background: #edf4fc;
       border-left: 4px solid navy;
       padding: 15px;
       border-radius: 4px;
     }
 
-    .traloi-content h4 {
+.traloi-content h4 {
       margin: 0 0 8px 0;
       color: navy;
       font-size: 15px;
@@ -240,7 +243,7 @@
       gap: 6px;
     }
 
-    .traloi-content p {
+.traloi-content p {
       margin: 0;
       font-size: 15px;
       line-height: 1.6;
@@ -248,12 +251,12 @@
       text-align: justify;
     }
 
-    .btn-wrap {
+.btn-wrap {
       text-align: center;
       padding-top: 25px;
     }
 
-    .back {
+.back {
       display: inline-block;
       padding: 12px 25px;
       background: navy;
@@ -265,40 +268,37 @@
       transition: all 0.2s ease;
     }
 
-    .back:hover {
+.back:hover {
       opacity: 0.85;
       transform: translateY(-1px);
     }
 
-    @media (max-width: 600px) {
-      .container {
+@media (max-width: 600px) {.container {
         padding: 10px;
       }
 
-      h1 {
+h1 {
         font-size: 26px;
       }
 
-      .subtitle {
+.subtitle {
         font-size: 14px;
         margin-bottom: 15px;
       }
 
-      .section-title {
+.section-title {
         font-size: 18px;
       }
 
-      .letter-header {
+.letter-header {
         font-size: 14px;
         padding: 12px 15px;
       }
 
-      .gopy-content p, .traloi-content p {
+.gopy-content p, .traloi-content p {
         font-size: 14px;
       }
 
-      .banner {
+.banner {
         height: 160px;
-      }
-    }
-  
+      }}

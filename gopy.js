@@ -27,4 +27,19 @@
         }
       });
     }
-  
+
+document.querySelectorAll("[data-external-event]").forEach(function(element) {
+  const eventId = element.getAttribute("data-external-event");
+  switch (eventId) {
+    case "evt_1":
+      element.addEventListener("keyup", function(event) {
+        searchLetters()
+      });
+      break;
+    case "evt_2":
+      element.addEventListener("click", function(event) {
+        toggleLetter(this)
+      });
+      break;
+  }
+});

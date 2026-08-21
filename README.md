@@ -1607,19 +1607,6 @@ URL API
 
 ---
 
-# ❤️ Made by ATCX
-
-> **Build simple. Think deep. Create useful things.**
-
-📝 **C2THCSBINHTHANH**
-
-⚡ Lightweight.
-🌐 Browser-based.
-🔒 Client-side.
-🚀 Built with Web Technologies.
-
----
-
 # 📜 License
 
 Bản quyền nội dung, hình ảnh, source code và thương hiệu thuộc chủ sở hữu dự án.

@@ -16,12 +16,12 @@
     <img src="1.png" class="top-banner" alt="Banner">
 
     <div class="navbar">
-      <button id="btn-home" class="active-nav" onclick="showPage('home')">Trang chủ</button>
-      <button id="btn-students" onclick="showPage('students')">Khai Giảng</button>
-      <button id="btn-teachers" onclick="showPage('teachers')">Tổng Kết</button>
-      <button id="btn-schedule" onclick="showPage('schedule')">Ngày 20/11</button>
-      <button id="btn-grades" onclick="showPage('grades')">Tết</button>
-      <button id="btn-contact" onclick="showPage('contact')">Sự Kiện Khác</button>
+      <button id="btn-home" class="active-nav" data-external-event="evt_1">Trang chủ</button>
+      <button id="btn-students" data-external-event="evt_2">Khai Giảng</button>
+      <button id="btn-teachers" data-external-event="evt_3">Tổng Kết</button>
+      <button id="btn-schedule" data-external-event="evt_4">Ngày 20/11</button>
+      <button id="btn-grades" data-external-event="evt_5">Tết</button>
+      <button id="btn-contact" data-external-event="evt_6">Sự Kiện Khác</button>
     </div>
 
     <div class="content">
@@ -48,9 +48,9 @@
           <h2>LỄ KHAI GIẢNG</h2>
           
           <div class="sub-navbar">
-            <button class="btn-students-2026 active-sub" onclick="showYear('students', '2026')">Năm 2026</button>
-            <button class="btn-students-2027" onclick="showYear('students', '2027')">Năm 2027</button>
-            <button class="btn-students-2028" onclick="showYear('students', '2028')">Năm 2028</button>
+            <button class="btn-students-2026 active-sub" data-external-event="evt_7">Năm 2026</button>
+            <button class="btn-students-2027" data-external-event="evt_8">Năm 2027</button>
+            <button class="btn-students-2028" data-external-event="evt_9">Năm 2028</button>
           </div>
 
           <div id="students-2026" class="year-content active-year">
@@ -74,9 +74,9 @@
           <h2>LỄ TỔNG KẾT NĂM HỌC</h2>
 
           <div class="sub-navbar">
-            <button class="btn-teachers-2026 active-sub" onclick="showYear('teachers', '2026')">Năm 2026</button>
-            <button class="btn-teachers-2027" onclick="showYear('teachers', '2027')">Năm 2027</button>
-            <button class="btn-teachers-2028" onclick="showYear('teachers', '2028')">Năm 2028</button>
+            <button class="btn-teachers-2026 active-sub" data-external-event="evt_10">Năm 2026</button>
+            <button class="btn-teachers-2027" data-external-event="evt_11">Năm 2027</button>
+            <button class="btn-teachers-2028" data-external-event="evt_12">Năm 2028</button>
           </div>
 
           <div id="teachers-2026" class="year-content active-year">
@@ -100,9 +100,9 @@
           <h2>NGÀY NHÀ GIÁO VIỆT NAM 20/11</h2>
 
           <div class="sub-navbar">
-            <button class="btn-schedule-2026 active-sub" onclick="showYear('schedule', '2026')">Năm 2026</button>
-            <button class="btn-schedule-2027" onclick="showYear('schedule', '2027')">Năm 2027</button>
-            <button class="btn-schedule-2028" onclick="showYear('schedule', '2028')">Năm 2028</button>
+            <button class="btn-schedule-2026 active-sub" data-external-event="evt_13">Năm 2026</button>
+            <button class="btn-schedule-2027" data-external-event="evt_14">Năm 2027</button>
+            <button class="btn-schedule-2028" data-external-event="evt_15">Năm 2028</button>
           </div>
 
           <div id="schedule-2026" class="year-content active-year">
@@ -126,9 +126,9 @@
           <h2>TẾT CỔ TRUYỀN</h2>
 
           <div class="sub-navbar">
-            <button class="btn-grades-2026 active-sub" onclick="showYear('grades', '2026')">Năm 2026</button>
-            <button class="btn-grades-2027" onclick="showYear('grades', '2027')">Năm 2027</button>
-            <button class="btn-grades-2028" onclick="showYear('grades', '2028')">Năm 2028</button>
+            <button class="btn-grades-2026 active-sub" data-external-event="evt_16">Năm 2026</button>
+            <button class="btn-grades-2027" data-external-event="evt_17">Năm 2027</button>
+            <button class="btn-grades-2028" data-external-event="evt_18">Năm 2028</button>
           </div>
 
           <div id="grades-2026" class="year-content active-year">
@@ -152,9 +152,9 @@
           <h2>CÁC SỰ KIỆN KHÁC</h2>
 
           <div class="sub-navbar">
-            <button class="btn-contact-2026 active-sub" onclick="showYear('contact', '2026')">Năm 2026</button>
-            <button class="btn-contact-2027" onclick="showYear('contact', '2027')">Năm 2027</button>
-            <button class="btn-contact-2028" onclick="showYear('contact', '2028')">Năm 2028</button>
+            <button class="btn-contact-2026 active-sub" data-external-event="evt_19">Năm 2026</button>
+            <button class="btn-contact-2027" data-external-event="evt_20">Năm 2027</button>
+            <button class="btn-contact-2028" data-external-event="evt_21">Năm 2028</button>
           </div>
 
           <div id="contact-2026" class="year-content active-year">

@@ -5,136 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kho Ảnh Của Website THCS Bình Thành</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f6fb;
-      color: #222;
-    }
-
-    .container {
-      max-width: 750px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 18px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-      overflow: hidden;
-      padding-bottom: 20px;
-    }
-
-    .banner {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-      display: block;
-    }
-
-    h1 {
-      margin: 20px 0 10px;
-      color: #d40000;
-      text-align: center;
-      font-size: 34px;
-      letter-spacing: 1px;
-    }
-
-    .subtitle {
-      text-align: center;
-      font-size: 18px;
-      color: #666;
-      margin: 0 20px 20px;
-    }
-
-    .btn-group {
-      text-align: center;
-      margin: 20px;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 12px 20px;
-      margin: 5px;
-      background: #004080;
-      color: white;
-      text-decoration: none;
-      border-radius: 10px;
-      font-weight: bold;
-      cursor: pointer;
-      border: none;
-      font-size: 16px;
-    }
-
-    .btn-upload {
-      background: #d40000;
-    }
-
-    .btn:hover {
-      opacity: 0.85;
-    }
-
-    #gallery {
-      display: none; 
-      padding: 20px;
-      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-      gap: 10px;
-      background: #f9f9f9;
-      border-top: 2px solid #eee;
-    }
-
-    #gallery img {
-      width: 100%;
-      height: 110px;
-      object-fit: cover;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    .back {
-      display: inline-block;
-      margin: 22px auto 0;
-      padding: 12px 22px;
-      background: navy;
-      color: white;
-      text-decoration: none;
-      border-radius: 10px;
-      font-weight: bold;
-      transition: 0.2s ease;
-    }
-
-    .back:hover {
-      opacity: 0.85;
-      transform: translateY(-1px);
-    }
-
-    .btn-wrap {
-      text-align: center;
-      padding-top: 10px;
-    }
-
-    @media (max-width: 600px) {
-      .container {
-        padding: 12px;
-      }
-      h1 {
-        font-size: 28px;
-      }
-      .banner {
-        height: 180px;
-      }
-      .btn {
-        width: 90%;
-        margin-bottom: 10px;
-      }
-    }
-  </style>
+  
   <link rel="stylesheet" href="anh.css">
   <link rel="stylesheet" href="chuyentrang.css">
 </head>
@@ -149,7 +20,7 @@
 
       <div class="btn-group">
         <a href=https://forms.gle/ZQg6kiXFHvKBY7oG8 target="_blank" class="btn btn-upload">1. Tải ảnh lên</a>
-        <button class="btn" onclick="document.getElementById('gallery').style.display = document.getElementById('gallery').style.display === 'grid' ? 'none' : 'grid';">2. Xem ảnh trong kho</button>
+        <button class="btn" data-external-event="evt_1">2. Xem ảnh trong kho</button>
       </div>
 
       <div id="gallery">
@@ -361,5 +232,6 @@
     </div>
   </div>
   <script src="chuyentrang.js"></script>
+  <script src="anh.js"></script>
 </body>
 </html>
