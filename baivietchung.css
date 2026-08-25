@@ -22,6 +22,7 @@
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
       overflow: hidden;
       padding-bottom: 20px;
+      animation: articleEnter 0.5s cubic-bezier(0.23, 1, 0.32, 1) both;
     }
 
     .banner {
@@ -59,6 +60,7 @@
 
     .content p {
       margin: 0;
+      animation: copyReveal 0.46s cubic-bezier(0.23, 1, 0.32, 1) 0.12s both;
     }
 
     .back {
@@ -70,17 +72,38 @@
       text-decoration: none;
       border-radius: 10px;
       font-weight: bold;
-      transition: 0.2s ease;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
     }
 
     .back:hover {
       opacity: 0.85;
-      transform: translateY(-1px);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 14px rgba(0, 0, 128, 0.2);
+    }
+
+    .back:active { transform: scale(0.97); }
+
+    @keyframes articleEnter {
+      from { opacity: 0; transform: translateY(18px) scale(0.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes copyReveal {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .btn-wrap {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
       text-align: center;
       padding-top: 10px;
+    }
+
+    .btn-wrap .back {
+      margin: 22px 0 0;
     }
 
     @media (max-width: 600px) {

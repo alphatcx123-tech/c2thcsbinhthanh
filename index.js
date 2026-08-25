@@ -68,11 +68,41 @@ window.addEventListener("DOMContentLoaded", () => {
   updateTimeAndStats();
   initVisitorCounterPremium();
   initBackToTop();
+  initRevealMotion();
   
   checkCookieConsent();
   applySavedTheme();
   setLanguage(getInitialLanguage());
 });
+
+function initRevealMotion() {
+  const items = Array.from(document.querySelectorAll(".widget, .content-card, .image-card, .forum-post"));
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (reducedMotion || !("IntersectionObserver" in window)) {
+    items.forEach((item) => item.classList.add("is-revealed"));
+    return;
+  }
+
+  document.body.classList.add("motion-ready");
+  items.forEach((item, index) => {
+    item.classList.add("motion-item");
+    item.style.transitionDelay = `${Math.min((index % 5) * 55, 220)}ms`;
+  });
+
+  const observer = new IntersectionObserver(
+    (entries, activeObserver) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-revealed");
+        activeObserver.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.12, rootMargin: "0px 0px -8%" },
+  );
+
+  items.forEach((item) => observer.observe(item));
+}
 
 function closeWelcomeModal() {
   const overlay = document.getElementById("welcomeNotification");

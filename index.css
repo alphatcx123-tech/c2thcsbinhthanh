@@ -1236,7 +1236,7 @@ body.dark-mode #progressBar {
 }
 
 .extracted-style-12 {
-  margin-top: 10px; margin-bottom: 12px;
+  margin-top: 10px; margin-bottom: 12px; text-align: center;
 }
 
 .extracted-style-13 {
@@ -1245,6 +1245,17 @@ body.dark-mode #progressBar {
 
 .extracted-style-14 {
   margin-bottom: 15px; line-height: 1.6; color: #555;
+}
+
+body.motion-ready .motion-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.56s cubic-bezier(0.23, 1, 0.32, 1), transform 0.56s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+body.motion-ready .motion-item.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .extracted-style-15 {
